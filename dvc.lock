@@ -1,0 +1,102 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python3.12 src/prepare.py data/raw data/prepared
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 6d8f0c274829764e1ea1112420825014.dir
+      size: 8822930
+      nfiles: 1605
+    - path: src/prepare.py
+      hash: md5
+      md5: 64f3a49d111d9382c49052044ae0f92d
+      size: 2596
+      isexec: true
+    - path: src/utils/seed.py
+      hash: md5
+      md5: 88d1f3a0005669ee70a6b5177dc12abb
+      size: 454
+      isexec: true
+    params:
+      params.yaml:
+        prepare:
+          seed: 77
+          split: 0.2
+          image_size:
+          - 32
+          - 32
+          grayscale: true
+    outs:
+    - path: data/prepared
+      hash: md5
+      md5: d86e59190ee26c1d823049fbf004dbf7.dir
+      size: 6619317
+      nfiles: 8
+  train:
+    cmd: python3.12 src/train.py data/prepared model
+    deps:
+    - path: data/prepared
+      hash: md5
+      md5: d86e59190ee26c1d823049fbf004dbf7.dir
+      size: 6619317
+      nfiles: 8
+    - path: src/train.py
+      hash: md5
+      md5: 39f771a52a460196ae6e66dc7cccc883
+      size: 2663
+      isexec: true
+    - path: src/utils/seed.py
+      hash: md5
+      md5: 88d1f3a0005669ee70a6b5177dc12abb
+      size: 454
+      isexec: true
+    params:
+      params.yaml:
+        train:
+          seed: 77
+          lr: 0.0001
+          epochs: 5
+          conv_size: 32
+          dense_size: 64
+          output_classes: 11
+    outs:
+    - path: model
+      hash: md5
+      md5: ad774edd4c3aa131755ff7199bdc22bb.dir
+      size: 2501740
+      nfiles: 2
+  evaluate:
+    cmd: python3.12 src/evaluate.py model data/prepared
+    deps:
+    - path: model
+      hash: md5
+      md5: ad774edd4c3aa131755ff7199bdc22bb.dir
+      size: 2501740
+      nfiles: 2
+    - path: src/evaluate.py
+      hash: md5
+      md5: 8265c909c399a89dff43ee8176acc35f
+      size: 5346
+      isexec: true
+    outs:
+    - path: evaluation/metrics.json
+      hash: md5
+      md5: 9f4ccaf010c7706b1981c07663dd26f4
+      size: 64
+      isexec: true
+    - path: evaluation/plots/confusion_matrix.png
+      hash: md5
+      md5: b4efce226cb704bb58eecd08d4045a02
+      size: 51527
+      isexec: true
+    - path: evaluation/plots/pred_preview.png
+      hash: md5
+      md5: f59733c4965a18119c6a04f56cb8fb24
+      size: 43048
+      isexec: true
+    - path: evaluation/plots/training_history.png
+      hash: md5
+      md5: 0254685ce3c4f21bc38ae159ae1907cc
+      size: 38643
+      isexec: true
