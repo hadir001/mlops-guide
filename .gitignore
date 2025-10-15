@@ -4,6 +4,10 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
+# Ignore Google Cloud SDK
+google-cloud-sdk/
+
+
 ## DVC
 # DVC plots
 dvc_plots
