@@ -6,6 +6,7 @@ __pycache__/
 
 # Ignore Google Cloud SDK
 google-cloud-sdk/
+google-cloud-cli-linux-x86_64.tar.gz
 
 
 ## DVC
