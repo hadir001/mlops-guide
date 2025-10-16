@@ -16,3 +16,4 @@ dvc_plots
 
 # DVC will add new files after this line
 /model
+google-service-account-key.json
